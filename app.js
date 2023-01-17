@@ -1,24 +1,35 @@
 const express = require('express');
 const app = express();
 
+require('dotenv').config()
+
 const port = process.env.PORT || 3000;
+
+
+//Conexion a Base de Datos
+const mongoose = require('mongoose');
+
+const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.mmv2wfi.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`;
+
+main().catch(err => console.log(err));
+
+async function main() {
+    mongoose.set('strictQuery', false);
+    await mongoose.connect(uri)
+}
+
+
 
 //motor de plantillas
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 
 
-app.use(express.static(__dirname + "/public"))
+app.use(express.static(__dirname + "/public"));
 
-
-app.get('/', (req, res) => {
-    res.render("index", {titulo: "mi titulo dinamico"})
-})
-
-app.get('/servicios', (req, res) => {
-    res.render("servicios", {tituloServicios: "este es un mensaje dinamico de servicios"})
-})
-
+//rutas web
+app.use('/', require('./router/RutasWeb'));
+app.use('/mascotas', require('./router/Mascotas'));
 
 app.use((req, res, next) => {
     res.status(404).render("404", {
