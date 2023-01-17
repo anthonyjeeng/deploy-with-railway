@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const mascotaSchema = new Schema ({
+const mascotaSchema = new Schema({
     nombre: String,
-    description: String
+    descripcion: String
 })
 
 //crear modelo
