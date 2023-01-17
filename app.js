@@ -6,10 +6,16 @@ require('dotenv').config()
 const port = process.env.PORT || 3000;
 
 
+
 //Conexion a Base de Datos
 const mongoose = require('mongoose');
 
-const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.mmv2wfi.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`;
+const user = 'student_vet'
+const password = 'kdA9VhT6ZEkYWhdG'
+const dbname = 'veterinaria'
+
+const uri = `mongodb+srv://${user}:${password}@cluster0.mmv2wfi.mongodb.net/${dbname}?retryWrites=true&w=majority`;
+//const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.mmv2wfi.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`;
 
 main().catch(err => console.log(err));
 
