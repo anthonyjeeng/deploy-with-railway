@@ -10,7 +10,8 @@ const port = process.env.PORT || 3000;
 //Conexion a Base de Datos
 const mongoose = require('mongoose');
 
-const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.mmv2wfi.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`;
+const uri = "mongodb://mongo:u1UaCJjEwhLdyNZD89Y3@containers-us-west-183.railway.app:6797"
+//const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.mmv2wfi.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`;
 
 mongoose.connect(uri,
     { useNewUrlParser: true, useUnifiedTopology: true }
