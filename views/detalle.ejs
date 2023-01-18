@@ -1,0 +1,92 @@
+<%- include("template/cabecera", {tituloWeb: 'Detalle de mascota'}) %>
+
+    <div class="container">
+        <h1>Detalle Mascota</h1>
+        <% if (error) { %>
+            <p>
+                <%= mensaje %> 
+            </p>
+            <a href="/mascotas" class="btn btn-dark btn-block">Volver a mascotas</a>
+        <% } %>
+
+        <% if (!error) { %>
+
+            <form id="formularioEditar" data-id="<%= mascota.id %>">
+                <input type="text" class="form-control my-2" name="nombre" value="<%= mascota.nombre %>" id="nombreInput">
+                <input type="text" class="form-control my-2" name="descripcion" value="<%= mascota.descripcion %>" id="descripcionInput">
+                <div class="d-grid">
+                    <button class="btn btn-warning" type="submit">Editar</button>    
+                </div>
+            </form>
+
+            <hr>
+
+            <button class="btn btn-danger btn-sm mt-5" id="btnEliminar" data-id="<%= mascota.id %>">
+                Eliminar
+            </button>
+        <% } %>
+    </div>
+
+<%- include("template/footer") %>
+
+<script>
+
+    const btnEliminar = document.querySelector('#btnEliminar')
+
+    btnEliminar.addEventListener('click', async() => {
+        console.log('me diste click')
+        const id = btnEliminar.dataset.id
+        console.log('id', id)
+
+        try {
+            const data = await fetch(`/mascotas/${id}`, {
+                method: 'delete'
+            })
+            const res = await data.json()
+            
+            if(res.estado){
+                window.location.href = '/mascotas'
+            } else {
+                console.log(res)
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    })
+
+
+    const formularioEditar = document.querySelector('#formularioEditar')
+
+    formularioEditar.addEventListener('submit', async(e) => {
+        e.preventDefault()
+        
+        const nombre = formularioEditar.elements['nombre'].value;               //opciones para capturar
+        const descripcion = document.querySelector('#descripcionInput').value   //valores del input
+        const id = formularioEditar.dataset.id
+
+        try {
+            const data = await fetch(`/mascotas/${id}`, {
+                method: 'put',
+                headers: {
+                    'Content-type': 'application/json'                          //para indicar que enviaremos en formato json
+                },
+                body: JSON.stringify({nombre, descripcion})
+            })
+
+            const res = await data.json()
+            console.log(res)
+
+            if(res.estado) {
+                window.location.href = '/mascotas'
+            } else {
+                console.log(res)
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+
+    })
+
+</script>
